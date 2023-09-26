@@ -2,6 +2,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 import time, math
+from dataBase import changeOdometry
 
 dist_meas = 0.00
 km_per_hour = 0
@@ -41,11 +42,13 @@ def calculate_speed(r_cm):
 def init_interrupt():
 	GPIO.add_event_detect(sensor, GPIO.FALLING, callback = calculate_elapse, bouncetime = 20)
 
-if __name__ == '__main__':
-	init_GPIO()
-	init_interrupt()
-	while True:
-		elapse2 = time.time() - start_timer
-		calculate_speed(26)	# call this function with wheel radius as parameter
-		print("Velocidad: {:.3f}  RPMs: {:.3f}   Dist: {:.3f}".format(km_per_hour, rpm, dist_meas))
-		print("--------")
+init_GPIO()
+init_interrupt()
+
+
+while True:
+	elapse2 = time.time() - start_timer
+	calculate_speed(26)	# call this function with wheel radius as parameter
+	#print("Velocidad: {:.3f}  RPMs: {:.3f}   Dist: {:.3f}".format(km_per_hour, rpm, dist_meas))
+	#print("--------")
+	changeOdometry(f"{km_per_hour:.3f}",f"{rpm:.3f}" ,f"{dist_meas:.3f}")

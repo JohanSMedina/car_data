@@ -18,4 +18,4 @@ while True:
     print("Voltaje:\t", voltaje)
     print("Corriente:\t", corriente)
     print("---------------------------------------")
-    #sleep(1)
+    sleep(0.01)

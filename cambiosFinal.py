@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import pigpio
+from dataBase import changeGear
 
 # Configuración de pines GPIO
 BUTTON_PIN_ADD = 23
@@ -45,13 +46,14 @@ while True:
         set_servo_angle(vecCambios[posVec])
         print("El cambio actual es: " + str((posVec+1)) + " El angulo actual es: ", vecCambios[posVec])
         time.sleep(0.3)  # Pequeña pausa para evitar rebotes
+        changeGear(posVec+1)
 
     if (button_subtract_state == GPIO.LOW) and (posVec > 0):
         posVec -= 1
         set_servo_angle(vecCambios[posVec])
         print("El cambio actual es: " + str((posVec+1)) + " El angulo actual es: ", vecCambios[posVec])
         time.sleep(0.3)  # Pequeña pausa para evitar rebotes
-        
+        changeGear(posVec+1)
 
 
 # Limpiar configuraciones al finalizar

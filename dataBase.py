@@ -23,6 +23,25 @@ def createTable():
     conection.commit()
     conection.close()
 
+def createTable1():
+    conection = sql.connect("VTE.db")
+    cursor = conection.cursor()
+    cursor.execute(
+        """CREATE TABLE allData(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cambio INTEGER,
+            velocidad FLOAT,
+            distancia FLOAT,
+            rpmRueda FLOAT,
+            rpmMotor FLOAT,
+            voltaje FLOAT,
+            corriente FLOAT,
+            fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )"""
+    )
+    conection.commit()
+    conection.close()
+
 def firstData(id, cambio, velocidad, distancia, rpmRueda, rpmMotor, voltaje, corriente):
     conection = sql.connect("VTE.db")
     cursor = conection.cursor()
@@ -57,10 +76,24 @@ def changeOdometry(km_per_hour, rpm, dist_meas):
     cursor.execute(instruction)
     conection.commit()
     conection.close()
+
+def insertAllData(cambio, velocidad, distancia, rpmRueda, rpmMotor, voltaje, corriente):
+    try:
+        conection = sql.connect("VTE.db")
+        cursor = conection.cursor()
+        cursor.execute(
+            "INSERT INTO allData (cambio, velocidad, distancia, rpmRueda, rpmMotor, voltaje, corriente) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (cambio, velocidad, distancia, rpmRueda, rpmMotor, voltaje, corriente)
+        )
+        conection.commit()
+        conection.close()
+    except sql.Error as e:
+        pass
     
 
 if __name__=="__main__":
     createDB()
     createTable()
+    createTable1()
     firstData(0,1,0.0,0.0,0.0,0.0,0.0,0.0)
     pass
